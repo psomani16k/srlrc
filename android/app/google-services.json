@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "219995123366",
+    "project_id": "srlrc-f9b02",
+    "storage_bucket": "srlrc-f9b02.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:219995123366:android:e1dade0aa1c295a9f78e67",
+        "android_client_info": {
+          "package_name": "com.example.srlrc"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDO3yVlx0GBX3_MoFHmZZIC4IANpIQRsz4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
