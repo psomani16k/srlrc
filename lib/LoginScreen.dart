@@ -1,5 +1,8 @@
+import 'package:camera/camera.dart';
 import 'package:srlrc/create_account.dart';
 import 'package:flutter/material.dart';
+import 'auth_service.dart';
+import 'camera_stream.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -8,9 +11,12 @@ class LoginScreen extends StatefulWidget {
   _LoginScreenState createState() => _LoginScreenState();
 }
 
+late List<CameraDescription> cameras;
+
 class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  bool pressedbutton = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -22,6 +28,11 @@ class _LoginScreenState extends State<LoginScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            pressedbutton == true
+                ? SizedBox(
+                    height: MediaQuery.of(context).size.height / 20,
+                    child: CircularProgressIndicator())
+                : SizedBox(),
             SizedBox(
               width: MediaQuery.of(context).size.width / 2,
               child: TextField(
@@ -46,9 +57,30 @@ class _LoginScreenState extends State<LoginScreen> {
               height: 30.0,
             ),
             ElevatedButton(
-              onPressed: () {
-                print(
-                    'Email: ${_emailController.text}, Password: ${_passwordController.text}');
+              onPressed: () async {
+                setState(() {
+                  pressedbutton = !pressedbutton;
+                });
+                final message = await AuthService().login(
+                  email: _emailController.text,
+                  password: _passwordController.text,
+                );
+                if (message!.contains('Success')) {
+                  cameras = await availableCameras();
+                  Navigator.of(context).pushReplacement(
+                    MaterialPageRoute(
+                      builder: (context) => CameraApp(cameras: cameras),
+                    ),
+                  );
+                }
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text(message),
+                  ),
+                );
+                setState(() {
+                  pressedbutton = false;
+                });
               },
               child: const Text('Login'),
             ),
@@ -57,11 +89,15 @@ class _LoginScreenState extends State<LoginScreen> {
             ),
             TextButton(
               onPressed: () {
+                setState(() {
+                  pressedbutton = !pressedbutton;
+                });
                 Navigator.of(context).push(
                   MaterialPageRoute(
                     builder: (context) => const CreateAccount(),
                   ),
                 );
+                pressedbutton = false;
               },
               child: const Text('Create Account'),
             ),

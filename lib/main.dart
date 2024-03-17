@@ -1,6 +1,7 @@
 import 'package:camera/camera.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:srlrc/LoginScreen.dart';
 import 'package:srlrc/camera_stream.dart';
 import 'package:srlrc/firebase_options.dart';
 
@@ -24,7 +25,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: CameraApp(cameras: cameras),
+      home: LoginScreen(),
     );
   }
 }
